@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+assembly="DataAccessLayer" namespace="DataAccessLayer.NHibernate" >
+  <class name="Employees" table="Employee" dynamic-update="true"  >
+    <cache usage="read-write"/> <!--auto-import="true"-->
+   
+    <id name="EmployeeId" column="EmployeeId" type="int">
+      <generator class="native" />
+    </id>
+    <property name="EmployeeName" />
+    <property name="EmployeeSalary" />
+
+    <!--<bag name="EmpDetails">
+      <key column="EmployeeId" />
+      <one-to-many class="EmpDetails" />
+    </bag>-->
+    
+    <set name = "EmpDetails" table = "EmployeeDetail"  lazy="false" inverse="true"
+         cascade="save-update, delete" fetch = "join">
+      <key column = "DetailId" not-null="true"/>
+      <one-to-many class = "EmpDetails"/>
+    </set>
+  
+ 
+  </class>
+  
+  
+  <class name="EmpDetails" table="EmployeeDetail" dynamic-update="true" >
+    <cache usage="read-write"/>
+    
+    <id name="DetailId" column="DetailId" type="int" >
+      <generator class="native" />
+    </id>
+    <property name="FatherName"  />
+    <property name="Contact" />
+    <property name="Address"/>
+    <property name="EmployeeId" type="int" />
+    
+  </class>  
+</hibernate-mapping>
+
